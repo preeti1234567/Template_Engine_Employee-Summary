@@ -13,6 +13,104 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+function init ()
+{
+    inquirer.prompt([{
+    type: "checkbox",
+    name: "role",
+    message: "What is the role your want to select to add ",
+    choices: ['Manager', 'Intern', 'Engineer'],
+    validate:function(answer){
+        if (answer="Manager")
+        {
+            return addManager();
+        }
+        if (answer ="Intern"){
+            return addIntern();
+        }
+        if (answer = "Engineer"){
+            return addEngineer();
+        }
+    }
+    }])
+ function addEngineer()
+ {
+    inquirer.prompt([{
+        type: "input",
+        name: "name",
+        message: "What is the name of the engineer ",
+    }, 
+    {
+        type: "input",
+        name: "id",
+        message: "What is the id of the engineer ",
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "What is the email of the engineer ",
+    },
+    {
+        type: "input",
+        name: "github",
+        message: "What is the github account of the engineer ",
+    }])
+ }  
+ 
+ function addIntern()
+ {
+    inquirer.prompt([{
+        type: "input",
+        name: "name",
+        message: "What is the name of the Intern ",
+    }, 
+    {
+        type: "input",
+        name: "id",
+        message: "What is the id of the Intern ",
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "What is the email of the Intern ",
+    },
+    {
+        type: "input",
+        name: "school",
+        message: "What school did he attend ",
+    },
+        {
+            type: "confirm",
+            message: "Do you want to add more intern?(yes/no) ",
+            name:"answers",
+        }])
+        .then(answers => {
+            addIntern();
+          })
+          .catch(error => {
+            if(error.isTtyError) {
+              alert("Prompt couldn't be rendered in the current environment")
+            } else {
+              // Something else when wrong
+            }
+          });
+        }
+   
+
+ inquirer
+  .prompt([
+    /* Pass your questions in here */
+  ])
+  .then(answers => {
+    // Use user feedback for... whatever!!
+  })
+  .catch(error => {
+    if(error.isTtyError) {
+      // Prompt couldn't be rendered in the current environment
+    } else {
+      // Something else when wrong
+    }
+  });
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
