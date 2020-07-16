@@ -9,21 +9,45 @@ const render = require("./lib/htmlRenderer");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const OUTPUT_PATH = path.join(OUTPUT_DIR, "team.html");
 
+const validateEmail = (value) => {
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+    return true;
+  }
+  return "invalid email address!";
+};
+
+const required = (value) => {
+  if (value !== "") return true;
+
+  return "value is required";
+};
+
+const phonenumber = (value) => {
+  var phoneno = /^\d{10}$/;
+  if (value.match(phoneno)) {
+    return true;
+  }
+  return "invalid phone number!";
+};
+
 const managerQuestion = [
   {
     type: "input",
     name: "name",
     message: "What is the name of the manager ",
+    validate: required,
   },
   {
     type: "input",
     name: "id",
     message: "What is the id of the manager ",
+    validate: required,
   },
   {
     type: "input",
     name: "email",
     message: "What is the email of the manager ",
+    validate: validateEmail,
   },
   {
     type: "input",
@@ -37,21 +61,25 @@ const internQuestion = [
     type: "input",
     name: "name",
     message: "What is the name of the intern ",
+    validate: required,
   },
   {
     type: "input",
     name: "id",
     message: "What is the id of the intern ",
+    validate: required,
   },
   {
     type: "input",
     name: "email",
     message: "What is the email of the intern ",
+    validate: validateEmail,
   },
   {
     type: "input",
     name: "school",
     message: "What school did he attend ",
+    validate: required,
   },
   {
     type: "confirm",
@@ -66,21 +94,25 @@ const engineerQuestion = [
     type: "input",
     name: "name",
     message: "What is the name of the engineer ",
+    validate: required,
   },
   {
     type: "input",
     name: "id",
     message: "What is the id of the engineer ",
+    validate: required,
   },
   {
     type: "input",
     name: "email",
     message: "What is the email of the engineer ",
+    validate: validateEmail,
   },
   {
     type: "input",
     name: "github",
     message: "What is the github account of the engineer ",
+    validate: required,
   },
 
   {
@@ -142,12 +174,11 @@ async function askQuestion(questionType, type) {
   await addEmpoyees(answers, type);
 }
 
-async function writeToFile(renderedData) {    
-    fs.writeFile(OUTPUT_PATH, renderedData,function(err){
-        if(err)
-            throw err;
-      });
-    console.log("Successfully generated Html file.");
+async function writeToFile(renderedData) {
+  fs.writeFile(OUTPUT_PATH, renderedData, function (err) {
+    if (err) throw err;
+  });
+  console.log("Successfully generated Html file.");
 }
 
 init();
